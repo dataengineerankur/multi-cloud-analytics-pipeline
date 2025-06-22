@@ -1,0 +1,78 @@
+{
+  "aws": {
+    "region": "us-east-1",
+    "s3_bucket": "psycho-bunny-data-lake",
+    "landing_zone_path": "s3://psycho-bunny-data-lake/landing-zone/",
+    "raw_data_path": "s3://psycho-bunny-data-lake/raw-data/",
+    "processed_data_path": "s3://psycho-bunny-data-lake/processed-data/",
+    "quality_metrics_path": "s3://psycho-bunny-data-lake/quality-metrics/",
+    "logs_path": "s3://psycho-bunny-data-lake/logs/"
+  },
+  "databricks": {
+    "workspace_url": "https://your-workspace.cloud.databricks.com",
+    "cluster_id": "your-cluster-id",
+    "token": "your-databricks-token",
+    "spark_config": {
+      "spark.sql.extensions": "io.delta.sql.DeltaSparkSessionExtension",
+      "spark.sql.catalog.spark_catalog": "org.apache.spark.sql.delta.catalog.DeltaCatalog",
+      "spark.jars.packages": "com.amazon.deequ:deequ:2.0.0-spark-3.1"
+    }
+  },
+  "redshift": {
+    "host": "your-redshift-cluster.region.redshift.amazonaws.com",
+    "port": 5439,
+    "database": "psycho_bunny_dw",
+    "username": "your_username",
+    "password": "your_password",
+    "schema": "public",
+    "iam_role": "arn:aws:iam::your-account:role/RedshiftS3Role"
+  },
+  "snowflake": {
+    "account": "your-account.snowflakecomputing.com",
+    "user": "your_username",
+    "password": "your_password",
+    "warehouse": "PSYCHO_BUNNY_WH",
+    "database": "PSYCHO_BUNNY_DB",
+    "schema": "PUBLIC",
+    "role": "ACCOUNTADMIN"
+  },
+  "data_quality": {
+    "thresholds": {
+      "customer_completeness": 0.95,
+      "transaction_completeness": 0.95,
+      "orphaned_transactions_pct": 0.05,
+      "anomalous_transactions_pct": 0.01,
+      "email_format_validity": 0.90
+    },
+    "alerting": {
+      "enabled": true,
+      "sns_topic": "arn:aws:sns:us-east-1:your-account:psycho-bunny-alerts",
+      "slack_webhook": "https://hooks.slack.com/services/your-webhook"
+    }
+  },
+  "processing": {
+    "batch_size": 10000,
+    "parallelism": 4,
+    "timeout_minutes": 60,
+    "retry_attempts": 3
+  },
+  "business_rules": {
+    "refund_restocking_fee_pct": 0.10,
+    "customer_value_thresholds": {
+      "high_value": 10000,
+      "medium_value": 5000,
+      "low_value": 0
+    },
+    "product_categories": {
+      "S10": "Scale Models",
+      "S12": "Motorcycles",
+      "S18": "Trucks and Buses",
+      "S24": "Classic Cars"
+    }
+  },
+  "monitoring": {
+    "cloudwatch_log_group": "/aws/databricks/psycho-bunny",
+    "metrics_namespace": "PsychoBunny/Pipeline",
+    "dashboard_name": "PsychoBunny-DataPipeline"
+  }
+} 

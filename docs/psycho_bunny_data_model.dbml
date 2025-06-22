@@ -1,0 +1,203 @@
+Project psycho_bunny_data_model {
+  database_type: 'Redshift'
+  Note: '''
+    # Psycho Bunny Data Pipeline Model
+    Complete data model for the Psycho Bunny analytics platform
+    Includes core dimensions, fact tables, and analytics aggregations
+  '''
+}
+
+// ===== CORE DIMENSION TABLES =====
+
+Table dim_customer {
+  customer_key varchar(500) [pk, note: 'Unique customer identifier']
+  first_name varchar(100) [note: 'Customer first name']
+  last_name varchar(100) [note: 'Customer last name']
+  full_name varchar(200) [note: 'Full customer name']
+  email varchar(200) [note: 'Customer email address']
+  company_name varchar(200) [note: 'Associated company']
+  address varchar(500) [note: 'Customer address']
+  city varchar(100) [note: 'City']
+  state varchar(50) [note: 'State/Province']
+  postal varchar(20) [note: 'Postal/ZIP code']
+  province varchar(50) [note: 'Province']
+  phone varchar(50) [note: 'Phone number']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Customer dimension with deduplicated master data'
+}
+
+Table dim_product {
+  PRODUCTCODE varchar(50) [pk, note: 'Product code (e.g., S10_4757)']
+  product_key varchar(50) [note: 'Product key identifier']
+  product_family varchar(100) [note: 'Product family (e.g., S10, S12)']
+  product_line varchar(100) [note: 'Product line description']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Product dimension with family classification'
+}
+
+Table dim_calendar {
+  date_key date [pk, note: 'Calendar date']
+  year integer [note: 'Year']
+  month integer [note: 'Month (1-12)']
+  day integer [note: 'Day of month']
+  quarter integer [note: 'Quarter (1-4)']
+  day_of_week integer [note: 'Day of week (1-7)']
+  month_name varchar(20) [note: 'Month name']
+  day_name varchar(20) [note: 'Day name']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Calendar dimension for time-based analysis'
+}
+
+// ===== CORE FACT TABLE =====
+
+Table fact_transactions {
+  order_number varchar(50) [pk, note: 'Unique order identifier']
+  customer_name varchar(200) [ref: > dim_customer.full_name, note: 'Customer name reference']
+  product_code varchar(50) [ref: > dim_product.PRODUCTCODE, note: 'Product code reference']
+  quantity integer [note: 'Quantity ordered']
+  unit_price decimal(10,2) [note: 'Price per unit']
+  total_amount decimal(12,2) [note: 'Total order amount']
+  transaction_type varchar(20) [note: 'SALE or REFUND']
+  restocking_fee decimal(10,2) [note: '10% restocking fee for refunds']
+  net_amount decimal(12,2) [note: 'Net amount after fees']
+  is_large_order boolean [note: 'Flag for orders >$5K']
+  order_date date [ref: > dim_calendar.date_key, note: 'Order date']
+  territory varchar(50) [note: 'Sales territory']
+  product_line varchar(100) [note: 'Product line']
+  status varchar(50) [note: 'Order status']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Core fact table with all transaction data'
+}
+
+// ===== ANALYTICS AGGREGATION TABLES =====
+
+Table sales_analytics {
+  year integer [pk, note: 'Year']
+  quarter integer [pk, note: 'Quarter']
+  month integer [pk, note: 'Month']
+  week integer [pk, note: 'Week']
+  total_sales decimal(12,2) [note: 'Total sales amount']
+  total_orders integer [note: 'Number of orders']
+  avg_order_value decimal(10,2) [note: 'Average order value']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Time-based sales analytics aggregations'
+}
+
+Table refunds_analytics {
+  year integer [pk, note: 'Year']
+  quarter integer [pk, note: 'Quarter'] 
+  month integer [pk, note: 'Month']
+  week integer [pk, note: 'Week']
+  total_refunds decimal(12,2) [note: 'Total refund amount']
+  total_restocking_fees decimal(10,2) [note: 'Total restocking fees']
+  total_refund_orders integer [note: 'Number of refund orders']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Time-based refunds analytics aggregations'
+}
+
+Table product_family_sales {
+  product_family varchar(100) [pk, note: 'Product family code']
+  total_sales decimal(12,2) [note: 'Total sales for family']
+  total_orders integer [note: 'Number of orders']
+  avg_order_value decimal(10,2) [note: 'Average order value']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Product family performance analytics'
+}
+
+Table regional_rankings {
+  territory varchar(50) [pk, note: 'Sales territory']
+  product_code varchar(50) [pk, note: 'Product code']
+  product_family varchar(100) [note: 'Product family']
+  total_sales decimal(12,2) [note: 'Total sales']
+  total_orders integer [note: 'Number of orders']
+  rank integer [note: 'Rank within territory (1=best, 2=second)']
+  ranking_type varchar(50) [note: 'Best Selling or Second Best Selling']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Best and second-best selling products by region'
+}
+
+Table revenue_difference {
+  territory varchar(50) [pk, note: 'Sales territory']
+  best_selling_revenue decimal(12,2) [note: 'Revenue of best selling product']
+  second_best_revenue decimal(12,2) [note: 'Revenue of second best product']
+  revenue_difference decimal(12,2) [note: 'Difference between best and second']
+  revenue_difference_pct decimal(5,2) [note: 'Percentage difference']
+  created_date timestamp [note: 'Record creation timestamp']
+  
+  Note: 'Revenue gap analysis between top products by region'
+}
+
+
+
+Table fiscal_aggregations {
+  FISCAL_YEAR integer [pk, note: 'Fiscal year']
+  FISCAL_QUARTER integer [pk, note: 'Fiscal quarter']
+  FISCAL_MONTH_NAME varchar(20) [pk, note: 'Fiscal month name']
+  fiscal_sales decimal(12,2) [note: 'Total fiscal sales']
+  fiscal_orders integer [note: 'Number of fiscal orders']
+  fiscal_avg_order decimal(10,2) [note: 'Average fiscal order value']
+  created_date timestamp [note: 'Record creation timestamp']
+
+  Note: 'Fiscal calendar-based aggregations'
+}
+
+Table daily_insights {
+  order_date_str varchar(20) [pk, note: 'Order date as string (YYYY-MM-DD)']
+  daily_sales decimal(12,2) [note: 'Total daily sales']
+  daily_orders integer [note: 'Number of daily orders']
+  daily_avg_order decimal(10,2) [note: 'Average daily order value']
+  unique_customers integer [note: 'Unique customers per day']
+  unique_products integer [note: 'Unique products sold per day']
+  sales_category varchar(50) [note: 'High/Medium/Low Sales Day']
+  created_date timestamp [note: 'Record creation timestamp']
+
+  Note: 'Daily performance insights for BI dashboards'
+}
+
+Table customer_segments {
+  customer_name varchar(200) [pk, ref: > dim_customer.full_name, note: 'Customer name']
+  total_spent decimal(12,2) [note: 'Total amount spent']
+  total_orders integer [note: 'Number of orders']
+  avg_order_value decimal(10,2) [note: 'Average order value']
+  last_order_date date [note: 'Date of last order']
+  customer_segment varchar(50) [note: 'High Value or Regular']
+  created_date timestamp [note: 'Record creation timestamp']
+
+  Note: 'Basic customer segmentation (legacy table)'
+}
+
+
+// ===== TABLE GROUPS =====
+
+TableGroup core_dimensions {
+  dim_customer
+  dim_product
+  dim_calendar
+}
+
+TableGroup core_facts {
+  fact_transactions
+}
+
+TableGroup analytics_aggregations {
+  sales_analytics
+  refunds_analytics
+  product_family_sales
+  regional_rankings
+  revenue_difference
+  fiscal_aggregations
+  daily_insights
+}
+
+TableGroup customer_analytics {
+
+  customer_segments
+}

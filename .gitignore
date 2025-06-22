@@ -1,0 +1,9 @@
+# JetBrains IDE files
+.idea/
+
+# Mac 
+.DS_Store
+
+# Python bytecode 
+*.pyc
+__pycache__/

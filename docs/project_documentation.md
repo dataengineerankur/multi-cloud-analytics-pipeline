@@ -17,8 +17,115 @@ The pipeline architecture is built to manage large volumes of data efficiently a
 - **Orchestration and Workflow**: Automated workflows using Apache Airflow to manage the pipeline's lifecycle and handle dependencies.
 - **Monitoring**: Comprehensive logging and monitoring through Spark UI, Airflow UI, and AWS CloudWatch.
 
-![Data Pipeline Architecture](https://via.placeholder.com/800x400/0066cc/ffffff?text=Psycho+Bunny+Data+Pipeline+Architecture)
+![Data Pipeline (3)](https://github.com/user-attachments/assets/6c7f53f5-f2a8-428e-a5fa-dfac2580259b)
 
+## Data Pipeline Flow
+
+The data pipeline follows a structured flow through multiple architectural layers, each serving specific purposes in the data processing lifecycle:
+
+### Layer 1: Landing Zone
+**Purpose**: Initial data ingestion and raw data storage
+- **Customer Data**: Raw customer information from operational systems
+- **Transaction Data**: Real-time transaction records from e-commerce platform
+- **Calendar Data**: Fiscal calendar and date dimension data
+- **Storage**: Amazon S3 buckets with organized folder structure
+- **Format**: Original source formats (CSV, JSON, Parquet)
+
+### Layer 2: Raw Zone  
+**Purpose**: Centralized raw data storage with basic structure
+- **Ingestion Process**: Automated data collection from various source systems
+- **Storage**: Amazon S3 with standardized naming conventions
+- **Data Quality**: Initial data validation and schema checks
+- **AWS Glue Data Quality**: Automated data profiling and quality assessment
+- **Retention**: Long-term storage for audit and reprocessing requirements
+
+### Layer 3: Processing Zone
+**Purpose**: Data transformation, enrichment, and quality validation
+
+#### Processing Components:
+- **Databricks**: Distributed data processing using Apache Spark clusters
+- **Delta Lake**: ACID-compliant storage layer for processed data
+- **Data Quality Validation**: PyDeequ framework for comprehensive quality checks
+- **Transformation Logic**: Business rule implementation and data enrichment
+
+#### Processing Flow:
+1. **Data Extraction**: Pull data from Raw Zone S3 buckets
+2. **Data Quality Checks**: Validate completeness, uniqueness, and business rules
+3. **Data Transformation**: Apply business logic and create dimensional models
+4. **Data Storage**: Store processed data in Delta Lake format
+5. **Data Export**: Prepare data for analytical consumption
+
+### Layer 4: Analytical Consumption
+**Purpose**: Multi-platform data delivery for different analytical needs
+
+#### Amazon Redshift (Operational Analytics):
+- **Purpose**: Business intelligence and operational reporting
+- **Data Model**: Star schema with optimized dimensional tables
+- **Use Cases**: Daily reports, dashboards, KPI monitoring
+- **Performance**: Columnar storage with distribution keys
+
+#### Snowflake (Optional For Advanced Analytics):
+- **Purpose**: Data science and advanced analytical workloads
+- **Data Model**: Flexible schema supporting complex queries
+- **Use Cases**: Machine learning, predictive analytics, data exploration
+- **Scalability**: Elastic compute with separation of storage and compute
+
+#### ML & AI Platform:
+- **Purpose**: Machine learning model training and deployment
+- **Data Access**: Direct connection to Delta Lake and data warehouses
+- **Use Cases**: Customer segmentation, demand forecasting, recommendation engines
+- **Integration**: Seamless data flow for model training and inference
+
+### Cross-Cutting Concerns
+
+#### Orchestration (Apache Airflow):
+- **Workflow Management**: End-to-end pipeline orchestration
+- **Dependency Management**: Task scheduling and dependency resolution
+- **Error Handling**: Retry logic and failure notifications
+- **Monitoring**: Pipeline execution tracking and alerting
+
+#### Monitoring & Logging:
+- **DataDog**: Application performance monitoring and log aggregation
+- **AWS CloudWatch**: Infrastructure monitoring and alerting
+- **Custom Metrics**: Business-specific KPIs and data quality metrics
+- **Alerting**: Real-time notifications for pipeline failures and data quality issues
+
+#### Data Governance:
+- **Data Lineage**: End-to-end data flow tracking
+- **Data Catalog**: Metadata management and data discovery
+- **Access Control**: Role-based access to different data layers
+- **Compliance**: Data retention policies and audit trails
+
+### Data Flow Summary
+```
+Customer/Transaction/Calendar Data → Landing Zone (S3) → Raw Zone (S3) → 
+Processing Zone (Databricks + Delta Lake) → Analytical Consumption 
+(Redshift + Snowflake + ML Platforms) → Analytics & Reporting
+```
+
+This layered architecture ensures:
+- **Data Integrity**: Each layer validates and enriches data quality
+- **Scalability**: Independent scaling of processing and storage components  
+- **Flexibility**: Multiple consumption patterns for different analytical needs
+- **Reliability**: Fault tolerance and data recovery capabilities
+- **Governance**: Comprehensive monitoring and compliance across all layers
+
+## Data Model
+
+<img width="1422" alt="Screenshot 2025-06-22 at 4 14 58 PM" src="https://github.com/user-attachments/assets/802cc60e-dd62-49b5-b544-7c129b1dc6b8" />
+
+### Source Data Schema
+- **Customer Data**: customer_id, first_name, last_name, email, phone, address, city, state, zip_code
+- **Transaction Data**: transaction_id, customer_id, product_id, product_name, product_family, amount, transaction_date, region
+- **Fiscal Calendar**: date, fiscal_year, fiscal_quarter, fiscal_month, fiscal_week
+
+### Target Data Model
+- **dim_customer**: Customer dimension with segmentation
+- **dim_product**: Product dimension with family groupings
+- **dim_calendar**: Date dimension with fiscal attributes
+- **fact_transactions**: Transaction facts with calculated measures
+- **Analytics Tables**: Pre-aggregated tables for specific business needs
+  
 ### Technologies Used
 - **Apache Spark 3.3**: Distributed data processing engine
 - **AWS S3**: Cloud object storage for raw and processed data
@@ -81,20 +188,6 @@ Creation of pre-aggregated analytics tables for BI consumption:
 - **Product Analytics**: Product family sales rankings
 - **Regional Analytics**: Geographic performance comparisons
 - **Customer Analytics**: Customer segmentation and top spender analysis
-
-## Data Model
-
-### Source Data Schema
-- **Customer Data**: customer_id, first_name, last_name, email, phone, address, city, state, zip_code
-- **Transaction Data**: transaction_id, customer_id, product_id, product_name, product_family, amount, transaction_date, region
-- **Fiscal Calendar**: date, fiscal_year, fiscal_quarter, fiscal_month, fiscal_week
-
-### Target Data Model
-- **dim_customer**: Customer dimension with segmentation
-- **dim_product**: Product dimension with family groupings
-- **dim_calendar**: Date dimension with fiscal attributes
-- **fact_transactions**: Transaction facts with calculated measures
-- **Analytics Tables**: Pre-aggregated tables for specific business needs
 
 ## Data Quality Framework
 

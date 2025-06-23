@@ -64,7 +64,7 @@ The data pipeline follows a structured flow through multiple architectural layer
 - **Use Cases**: Daily reports, dashboards, KPI monitoring
 - **Performance**: Columnar storage with distribution keys
 
-#### Snowflake (Optional For Advanced Analytics):
+#### Snowflake (Future Segment For Advanced Analytics):
 - **Purpose**: Data science and advanced analytical workloads
 - **Data Model**: Flexible schema supporting complex queries
 - **Use Cases**: Machine learning, predictive analytics, data exploration
@@ -84,13 +84,13 @@ The data pipeline follows a structured flow through multiple architectural layer
 - **Error Handling**: Retry logic and failure notifications
 - **Monitoring**: Pipeline execution tracking and alerting
 
-#### Monitoring & Logging:
+#### Monitoring & Logging (Future Segment):
 - **DataDog**: Application performance monitoring and log aggregation
 - **AWS CloudWatch**: Infrastructure monitoring and alerting
 - **Custom Metrics**: Business-specific KPIs and data quality metrics
 - **Alerting**: Real-time notifications for pipeline failures and data quality issues
 
-#### Data Governance:
+#### Data Governance (Future Segment):
 - **Data Lineage**: End-to-end data flow tracking
 - **Data Catalog**: Metadata management and data discovery
 - **Access Control**: Role-based access to different data layers
@@ -110,9 +110,125 @@ This layered architecture ensures:
 - **Reliability**: Fault tolerance and data recovery capabilities
 - **Governance**: Comprehensive monitoring and compliance across all layers
 
-## Data Model
+## Data Model (ERD Diagram)
 
-<img width="1422" alt="Screenshot 2025-06-22 at 4 14 58 PM" src="https://github.com/user-attachments/assets/802cc60e-dd62-49b5-b544-7c129b1dc6b8" />
+[Click Here For More Details](https://github.com/innovacraft/psycho_bunny_pipeline/blob/main/docs/ERD.md) 
+
+```mermaid
+erDiagram
+    dim_customer ||--o{ fact_transactions : "customer_name"
+    dim_product ||--o{ fact_transactions : "product_code"
+    dim_date ||--o{ fact_transactions : "order_date"
+    
+    fact_transactions ||--|| customer_segments : "customer_name"
+    fact_transactions ||--|| product_performance : "territory + product_code"
+    fact_transactions ||--|| monthly_summary : "year + month"
+    
+    customer_segments ||--o| top_customers : "customer_name"
+    
+    dim_customer {
+        varchar customer_key PK
+        varchar first_name
+        varchar last_name
+        varchar full_name
+        varchar email
+        varchar company_name
+        varchar address_line_1
+        varchar address_line_2
+        varchar city
+        varchar state
+        varchar postal_code
+        varchar country
+        varchar phone
+        timestamp created_date
+        timestamp updated_date
+    }
+    
+    dim_product {
+        varchar product_key PK
+        varchar product_family
+        varchar product_family_name
+        timestamp created_date
+        timestamp updated_date
+    }
+    
+    dim_date {
+        date date_key PK
+        date date
+        int week_number
+        int month_number
+        int quarter_number
+        int year_number
+        int day_of_week
+        int day_of_year
+        int week_of_year
+        timestamp created_date
+        timestamp updated_date
+    }
+    
+    fact_transactions {
+        bigint transaction_key PK
+        varchar order_number
+        varchar customer_name FK
+        varchar product_code FK
+        int quantity
+        decimal unit_price
+        decimal total_amount
+        varchar deal_size
+        varchar territory
+        varchar status
+        varchar product_line
+        varchar transaction_type
+        decimal restocking_fee
+        decimal net_amount
+        date order_date FK
+        timestamp created_date
+    }
+    
+    customer_segments {
+        varchar customer_name PK
+        decimal total_spent
+        int order_count
+        decimal avg_order_value
+        date last_order_date
+        int unique_products
+        varchar customer_segment
+    }
+    
+    product_performance {
+        varchar territory PK
+        varchar product_code PK
+        varchar product_line
+        decimal total_revenue
+        int total_quantity
+        int order_count
+        decimal avg_price
+        int revenue_rank
+        decimal best_revenue
+        decimal revenue_diff_from_best
+    }
+    
+    monthly_summary {
+        int year_number PK
+        int month_number PK
+        decimal total_sales
+        decimal total_refunds
+        int items_sold
+        int items_refunded
+        decimal total_restocking_fees
+        int unique_customers
+    }
+    
+    top_customers {
+        varchar customer_name PK
+        varchar email
+        decimal total_spent
+        int order_count
+        varchar customer_segment
+    }
+```
+
+
 
 ### Source Data Schema
 - **Customer Data**: customer_id, first_name, last_name, email, phone, address, city, state, zip_code
@@ -205,7 +321,7 @@ Creation of pre-aggregated analytics tables for BI consumption:
 - **Pipeline Continuation**: Non-critical failures allow pipeline to continue
 - **Alerting**: Email notifications for critical data quality issues
 
-## Performance Optimization
+## Performance Optimization (Future Segment)
 
 ### Query Performance
 - **Delta Lake Optimization**: Regular OPTIMIZE and ZORDER operations
@@ -224,16 +340,16 @@ Creation of pre-aggregated analytics tables for BI consumption:
 ### Pipeline Monitoring
 - **Airflow UI**: Visual monitoring of DAG execution and task status
 - **Spark UI**: Detailed job and stage execution metrics
-- **CloudWatch**: AWS resource utilization and performance metrics
+- **CloudWatch**: AWS resource utilization and performance metrics (Future Segment)
 - **Custom Logging**: Application-specific logging for troubleshooting
 
-### Alerting Strategy
+### Alerting Strategy (Future Segment)
 - **Email Notifications**: Immediate alerts for pipeline failures
 - **Data Quality Alerts**: Notifications for validation threshold breaches
 - **Performance Alerts**: Warnings for unusual execution times
 - **Resource Alerts**: Notifications for resource constraint issues
 
-## Security and Compliance
+## Security and Compliance 
 
 ### Access Control
 - **IAM Roles**: Principle of least privilege for all AWS resources

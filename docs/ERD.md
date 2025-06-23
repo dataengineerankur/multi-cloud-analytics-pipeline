@@ -88,7 +88,7 @@ This document describes the entity relationship model for the Psycho Bunny data 
   - `unique_products`: Product variety purchased
   - `customer_segment`: High/Medium/Low value classification
 
-#### `product_performance`
+#### `product_performance` (Future Segment)
 - **Primary Key**: (`territory`, `product_code`)
 - **Description**: Product performance metrics by territory
 - **Attributes**:
@@ -103,7 +103,7 @@ This document describes the entity relationship model for the Psycho Bunny data 
   - `best_revenue`: Best performer revenue in territory
   - `revenue_diff_from_best`: Revenue gap from top performer
 
-#### `monthly_summary`
+#### `monthly_summary` (Future Segment)
 - **Primary Key**: (`year_number`, `month_number`)
 - **Description**: Monthly business metrics aggregation
 - **Attributes**:
@@ -114,7 +114,7 @@ This document describes the entity relationship model for the Psycho Bunny data 
   - `total_restocking_fees`: Fees collected
   - `unique_customers`: Active customers
 
-#### `top_customers`
+#### `top_customers` (Future Segment)
 - **Primary Key**: `customer_name` (VARCHAR)
 - **Description**: Top 10 customers by spending with contact information
 - **Attributes**:

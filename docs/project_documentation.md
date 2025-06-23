@@ -64,7 +64,7 @@ The data pipeline follows a structured flow through multiple architectural layer
 - **Use Cases**: Daily reports, dashboards, KPI monitoring
 - **Performance**: Columnar storage with distribution keys
 
-#### Snowflake (Optional For Advanced Analytics):
+#### Snowflake (Future Segment For Advanced Analytics):
 - **Purpose**: Data science and advanced analytical workloads
 - **Data Model**: Flexible schema supporting complex queries
 - **Use Cases**: Machine learning, predictive analytics, data exploration
@@ -84,13 +84,13 @@ The data pipeline follows a structured flow through multiple architectural layer
 - **Error Handling**: Retry logic and failure notifications
 - **Monitoring**: Pipeline execution tracking and alerting
 
-#### Monitoring & Logging:
+#### Monitoring & Logging (Future Segment):
 - **DataDog**: Application performance monitoring and log aggregation
 - **AWS CloudWatch**: Infrastructure monitoring and alerting
 - **Custom Metrics**: Business-specific KPIs and data quality metrics
 - **Alerting**: Real-time notifications for pipeline failures and data quality issues
 
-#### Data Governance:
+#### Data Governance (Future Segment):
 - **Data Lineage**: End-to-end data flow tracking
 - **Data Catalog**: Metadata management and data discovery
 - **Access Control**: Role-based access to different data layers
@@ -205,7 +205,7 @@ Creation of pre-aggregated analytics tables for BI consumption:
 - **Pipeline Continuation**: Non-critical failures allow pipeline to continue
 - **Alerting**: Email notifications for critical data quality issues
 
-## Performance Optimization
+## Performance Optimization (Future Segment)
 
 ### Query Performance
 - **Delta Lake Optimization**: Regular OPTIMIZE and ZORDER operations
@@ -224,16 +224,16 @@ Creation of pre-aggregated analytics tables for BI consumption:
 ### Pipeline Monitoring
 - **Airflow UI**: Visual monitoring of DAG execution and task status
 - **Spark UI**: Detailed job and stage execution metrics
-- **CloudWatch**: AWS resource utilization and performance metrics
+- **CloudWatch**: AWS resource utilization and performance metrics (Future Segment)
 - **Custom Logging**: Application-specific logging for troubleshooting
 
-### Alerting Strategy
+### Alerting Strategy (Future Segment)
 - **Email Notifications**: Immediate alerts for pipeline failures
 - **Data Quality Alerts**: Notifications for validation threshold breaches
 - **Performance Alerts**: Warnings for unusual execution times
 - **Resource Alerts**: Notifications for resource constraint issues
 
-## Security and Compliance
+## Security and Compliance 
 
 ### Access Control
 - **IAM Roles**: Principle of least privilege for all AWS resources

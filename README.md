@@ -8,7 +8,7 @@ This project develops a robust, scalable, and automated data pipeline to process
 - **Processing Layer**: Apache Spark for ETL/ELT operations
 - **Data Quality**: AWS Deequ framework for automated data validation
 - **Data Warehouses**:
-  - Delta Lake: Primary analytical storage with ACID compliance
+  - Delta Lake: Primary analytical storage with Schema Evolution & ACID compliance
   - Redshift for operational analytics and reporting
   - Snowflake for advanced analytics and data science workloads
 - **Orchestration**: Apache Airflow for workflow management
@@ -24,12 +24,12 @@ This project develops a robust, scalable, and automated data pipeline to process
 - `lib/`: Helper libraries for Spark session setup, Deequ integration, and utilities
 - [`docs/`](https://github.com/innovacraft/psycho_bunny_pipeline/blob/main/docs/project_documentation.md): Project documentation, ERD diagrams, and architecture documentation
 - `airflow/`: Airflow DAGs, configuration, and logs for orchestrating the pipeline
-- `terraform/`: Infrastructure as Code for AWS resources provisioning (Optional)
+- `terraform/`: Infrastructure as Code for AWS resources provisioning (Future Segment)
 - `deequ/`: Data quality tests and validation scripts using AWS Deequ
 
 ### Prerequisites
 1. AWS Account with appropriate permissions for S3, IAM, CloudWatch, and Redshift
-2. Databricks workspace with access to AWS S3
+2. Databricks workspace (or Spark environment setup on EMR / Local) with access to AWS S3
 3. Snowflake account and credentials
 4. Python 3.8+ with required packages
 5. Apache Airflow (local or cloud deployment)
@@ -90,7 +90,7 @@ python scripts/06_generate_analytics.py
 
 ### Monitoring and Maintenance
 - Monitor pipeline execution using Airflow UI
-- Check data quality metrics in AWS CloudWatch & Datadog (Optional)
+- Check data quality metrics in AWS CloudWatch & Datadog (Future Segment)
 - Review logs in S3 and CloudWatch
 - Set up alerts for pipeline failures and data quality issues
 

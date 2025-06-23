@@ -5,7 +5,7 @@ This project develops a robust, scalable, and automated data pipeline to process
 
 ## Architecture Overview
 - **Landing Zone**: AWS S3 for raw data storage
-- **Processing Layer**: Databricks with Apache Spark for ETL/ELT operations
+- **Processing Layer**: Apache Spark for ETL/ELT operations
 - **Data Quality**: AWS Deequ framework for automated data validation
 - **Data Warehouses**:
   - Delta Lake: Primary analytical storage with ACID compliance
@@ -22,9 +22,9 @@ This project develops a robust, scalable, and automated data pipeline to process
 - `scripts/`: Python scripts for automated data processing and orchestration
 - `config/`: Configuration files for database connections and AWS services
 - `lib/`: Helper libraries for Spark session setup, Deequ integration, and utilities
-- `docs/`: Project documentation, ERD diagrams, and architecture documentation
+- [`docs/`](https://github.com/innovacraft/psycho_bunny_pipeline/blob/main/docs/project_documentation.md): Project documentation, ERD diagrams, and architecture documentation
 - `airflow/`: Airflow DAGs, configuration, and logs for orchestrating the pipeline
-- `terraform/`: Infrastructure as Code for AWS resources provisioning
+- `terraform/`: Infrastructure as Code for AWS resources provisioning (Optional)
 - `deequ/`: Data quality tests and validation scripts using AWS Deequ
 
 ### Prerequisites
@@ -40,10 +40,10 @@ This project develops a robust, scalable, and automated data pipeline to process
    - Set up S3 buckets for landing zone and processed data
    - Configure IAM roles for Databricks and Airflow
 
-2. **Databricks Setup**:
+2. **Databricks or Spark(On EMR/Local) Setup**:
    - Install required libraries: `pyspark`, `delta`, `boto3`, `pydeequ`
    - Configure cluster with appropriate instance types
-   - Set up S3 access from Databricks
+   - Set up S3 access from Databricks (Or EMR/Local)
 
 3. **Data Warehouse Setup**:
    - Configure Redshift cluster and create target schemas

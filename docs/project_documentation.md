@@ -34,7 +34,7 @@ The data pipeline follows a structured flow through multiple architectural layer
 ### Layer 2: Raw Zone  
 **Purpose**: Centralized raw data storage with basic structure
 - **Ingestion Process**: Automated data collection from various source systems
-- **Storage**: Amazon S3 with standardized naming conventions
+- **Storage**: Amazon S3 in delta lake format with standardized naming conventions
 - **Data Quality**: Initial data validation and schema checks
 - **AWS Glue Data Quality**: Automated data profiling and quality assessment
 - **Retention**: Long-term storage for audit and reprocessing requirements

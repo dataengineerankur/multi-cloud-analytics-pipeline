@@ -239,7 +239,7 @@ erDiagram
     }
 ```
 
-## Data Quality Rules
+## Data Quality Rules (Future Segment)
 
 ### Customer Data
 - Customer ID must be unique

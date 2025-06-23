@@ -90,7 +90,7 @@ python scripts/06_generate_analytics.py
 
 ### Monitoring and Maintenance
 - Monitor pipeline execution using Airflow UI
-- Check data quality metrics in AWS CloudWatch
+- Check data quality metrics in AWS CloudWatch & Datadog (Optional)
 - Review logs in S3 and CloudWatch
 - Set up alerts for pipeline failures and data quality issues
 

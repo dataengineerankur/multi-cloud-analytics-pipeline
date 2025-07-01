@@ -18,8 +18,8 @@ This document describes the entity relationship model for the Psycho Bunny data 
   - `full_name`: Concatenated full name
   - `email`: Customer email address
   - `company_name`: Associated company
-  - `address_line_1`, `address_line_2`: Address components
-  - `city`, `state`, `postal_code`, `country`: Location information
+  - `address`: Address components
+  - `city`, `state`, `postal_code` : Location information
   - `phone`: Contact number
   - `created_date`, `updated_date`: Audit timestamps
 
@@ -29,19 +29,10 @@ This document describes the entity relationship model for the Psycho Bunny data 
 - **Attributes**:
   - `product_key`: Product code (e.g., S10_4757)
   - `product_family`: Extracted family code (e.g., S10)
-  - `product_family_name`: Human-readable family name
+  - `product_line`: Product Line
   - `created_date`, `updated_date`: Audit timestamps
 
-**Product Family Mapping**:
-- S10: Scale Models
-- S12: Motorcycles
-- S18: Vintage Cars
-- S24: Classic Cars
-- S32: Trucks and Buses
-- S50: Ships
-- S700: Planes
-
-#### `dim_date`
+#### `dim_calendar`
 - **Primary Key**: `date_key` (DATE)
 - **Description**: Date dimension for time-based analysis
 - **Attributes**:
@@ -58,7 +49,7 @@ This document describes the entity relationship model for the Psycho Bunny data 
 - **Foreign Keys**:
   - Links to `dim_customer` via `customer_name`
   - Links to `dim_product` via `product_code`
-  - Links to `dim_date` via `order_date`
+  - Links to `dim_calendar` via `order_date`
 - **Attributes**:
   - `order_number`: Transaction identifier
   - `customer_name`: Customer reference
@@ -82,10 +73,10 @@ This document describes the entity relationship model for the Psycho Bunny data 
 - **Description**: Customer segmentation based on spending behavior
 - **Attributes**:
   - `total_spent`: Lifetime customer value
-  - `order_count`: Number of orders
+  - `total_orders`: Number of orders
   - `avg_order_value`: Average order size
   - `last_order_date`: Most recent purchase
-  - `unique_products`: Product variety purchased
+  - `created_date`: Created Date 
   - `customer_segment`: High/Medium/Low value classification
 
 #### `product_performance` (Future Segment)
@@ -129,7 +120,7 @@ This document describes the entity relationship model for the Psycho Bunny data 
 erDiagram
     dim_customer ||--o{ fact_transactions : "customer_name"
     dim_product ||--o{ fact_transactions : "product_code"
-    dim_date ||--o{ fact_transactions : "order_date"
+    dim_calendar ||--o{ fact_transactions : "order_date"
     
     fact_transactions ||--|| customer_segments : "customer_name"
     fact_transactions ||--|| product_performance : "territory + product_code"
@@ -144,12 +135,10 @@ erDiagram
         varchar full_name
         varchar email
         varchar company_name
-        varchar address_line_1
-        varchar address_line_2
+        varchar address
         varchar city
         varchar state
         varchar postal_code
-        varchar country
         varchar phone
         timestamp created_date
         timestamp updated_date
@@ -158,12 +147,12 @@ erDiagram
     dim_product {
         varchar product_key PK
         varchar product_family
-        varchar product_family_name
+        varchar product_line
         timestamp created_date
         timestamp updated_date
     }
     
-    dim_date {
+    dim_calendar {
         date date_key PK
         date date
         int week_number
@@ -199,10 +188,10 @@ erDiagram
     customer_segments {
         varchar customer_name PK
         decimal total_spent
-        int order_count
+        int total_orders
         decimal avg_order_value
         date last_order_date
-        int unique_products
+        date created_date
         varchar customer_segment
     }
     

@@ -8,7 +8,9 @@ This document outlines the implementation details of a data pipeline designed to
 ### Architecture
 The pipeline architecture is built to manage large volumes of data efficiently and effectively, ensuring scalability, availability, and security:
 
-- **Extraction, Transformation, and Loading (ETL)**: Data is extracted from S3, transformed using Spark, and loaded into Delta Lake format.
+- **Extraction, Loading, and Transformation (ELT)**:
+  - Ingest raw customer, transaction, and calendar data into S3 landing and raw zones, with schema validation and partitioning.
+  - Transform and load curated data into Delta Lake, Redshift, and Snowflake for fast BI, reporting, and advanced analytics.
 - **Data Quality Validation**: Comprehensive validation using PyDeequ framework to ensure data integrity and business rule compliance.
 - **Enrichment and Extension**: Data is enhanced with additional computations including customer segmentation, sales analytics, and business metrics.
 - **Mitigation of Risks**: Implementing Delta Lake ensures ACID transactions, data versioning, and consistent data across the pipeline.
@@ -24,17 +26,18 @@ The pipeline architecture is built to manage large volumes of data efficiently a
 The data pipeline follows a structured flow through multiple architectural layers, each serving specific purposes in the data processing lifecycle:
 
 ### Layer 1: Landing Zone
-**Purpose**: Initial data ingestion and raw data storage
+**Purpose**: Initial data ingestion and as-is data storage
 - **Customer Data**: Raw customer information from operational systems
 - **Transaction Data**: Real-time transaction records from e-commerce platform
 - **Calendar Data**: Fiscal calendar and date dimension data
+- **Ingestion Process**: Automated data collection (live streaming or batch) from various source systems
 - **Storage**: Amazon S3 buckets with organized folder structure
 - **Format**: Original source formats (CSV, JSON, Parquet)
 
 ### Layer 2: Raw Zone  
-**Purpose**: Centralized raw data storage with basic structure
-- **Ingestion Process**: Automated data collection from various source systems
-- **Storage**: Amazon S3 in delta lake format with standardized naming conventions
+**Purpose**: Centralized raw data storage with partitioned data
+- **Storage**: Amazon S3 in delta lake format with standardized naming conventions & partitoned by date
+- **Schema Validation**: Schema validation to make sure schema is aligned
 - **Data Quality**: Initial data validation and schema checks
 - **AWS Glue Data Quality**: Automated data profiling and quality assessment
 - **Retention**: Long-term storage for audit and reprocessing requirements

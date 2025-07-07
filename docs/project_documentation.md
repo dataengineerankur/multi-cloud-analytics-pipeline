@@ -338,6 +338,81 @@ Creation of pre-aggregated analytics tables for BI consumption:
 - **Memory Management**: Proper memory allocation for large datasets
 - **Parallel Processing**: Maximizing parallelism for data transformations
 
+## Estimated Business Impact Metrics (Sample)
+
+*Note: The following metrics are estimated samples based on industry benchmarks and typical improvements. Actual results may vary.*
+
+### 1. Trusted Data Quality
+
+| Metric                       | Before Pipeline               | After Pipeline                | Impact                                  |
+|------------------------------|------------------------------|------------------------------|----------------------------------------|
+| Manual data validation time   | ~40 hours/week               | ~12 hours/week               | **70% reduction (~28 hours/week saved)** |
+| Data accuracy                | ~85–90%                     | >99%                         | Reduced business errors, improved trust |
+| Estimated cost of errors      | ~$250,000/year              | ~$50,000/year                | **$200,000 annual cost savings**       |
+
+---
+
+### 2. Faster Time-to-Insight
+
+| Metric                       | Before Pipeline               | After Pipeline                | Impact                                   |
+|------------------------------|------------------------------|------------------------------|------------------------------------------|
+| Report generation latency     | 12–24 hours                 | 2–4 hours                   | **75–83% faster report availability**    |
+| Decision-making frequency     | Once daily                 | Up to 6x per day             | Enables near real-time response          |
+| Estimated revenue impact      | Baseline                   | +$500,000/year              | Improved promotional agility and stock optimization |
+
+---
+
+### 3. Scalability
+
+| Metric                       | Before Pipeline               | After Pipeline                | Impact                                    |
+|------------------------------|------------------------------|------------------------------|--------------------------------------------|
+| Max data volume handled       | ~100GB/day                  | >1TB/day                    | 10x scalability                            |
+| Infrastructure upgrade cost   | $200,000+ (major overhaul)  | $0 (auto-scaling cloud services) | **$200,000 cost avoidance**                |
+| Downtime due to scaling       | Frequent (days/month)        | Minimal (minutes)            | Improved availability                      |
+
+---
+
+### 4. Enhanced Customer Personalization
+
+| Metric                       | Before Pipeline               | After Pipeline                | Impact                                    |
+|------------------------------|------------------------------|------------------------------|--------------------------------------------|
+| Customer retention rate       | 70–75%                     | 82–85%                      | 10–12% improvement                        |
+| Marketing ROI                | Baseline                   | +15%                        | Higher campaign effectiveness              |
+| Incremental revenue           | Baseline                   | +$1,000,000/year            | Due to targeted marketing                   |
+
+
+### 5. Supports Advanced Analytics and Innovation
+
+| Metric                       | Before Pipeline               | After Pipeline                | Impact                                    |
+|------------------------------|------------------------------|------------------------------|--------------------------------------------|
+| ML model development time     | 8 weeks                    | 5 weeks                    | 40% faster delivery                      |
+| Forecast accuracy improvement | Baseline                   | +15%                       | Better inventory and demand planning      |
+| Cost savings from better forecasts | Baseline              | $300,000/year              | Reduced stockouts and overstock           |
+
+
+### 6. Cost Optimization
+
+| Metric                       | Before Pipeline               | After Pipeline                | Impact                                  |
+|------------------------------|------------------------------|------------------------------|------------------------------------------|
+| Cloud storage costs           | $400,000/year              | $240,000/year              | 40% cost savings                       |
+| Compute costs                | $300,000/year              | $225,000/year              | 25% savings through optimization         |
+| Total annual savings         | Baseline                   | $235,000+                   | Significant cloud cost reduction         |
+
+---
+
+## Summary Table (Before vs After)
+
+| Impact Area               | Before                      | After                       | Quantified Benefit                      |
+|--------------------------|-----------------------------|-----------------------------|---------------------------------------|
+| Data validation time      | ~40 hrs/week               | ~12 hrs/week               | 70% effort saved                      |
+| Report latency           | 12–24 hrs                  | 2–4 hrs                   | 5x faster insights                    |
+| Scalability              | ~100GB/day, costly upgrades | >1TB/day, auto-scaling     | 10x scale, $200K cost avoided        |
+| Customer retention       | 70–75%                    | 82–85%                    | 10–12% retention uplift              |
+| ML dev cycle time        | 8 weeks                    | 5 weeks                   | 40% faster model rollout             |
+| Cloud costs              | $700K/year                | $465K/year                | 33% cost savings                    |
+
+---
+
 ## Monitoring and Alerting
 
 ### Pipeline Monitoring

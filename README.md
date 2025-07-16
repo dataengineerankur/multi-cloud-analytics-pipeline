@@ -1,7 +1,7 @@
-# Psycho Bunny Data Pipeline Project
+# ELT Data Pipeline Project
 
 ## Project Description
-This project develops a robust, scalable, and automated data pipeline to process and analyze customer and transaction data for Psycho Bunny. The pipeline ingests data from multiple sources, performs data quality checks using AWS Deequ, processes data using PySpark, and stores results in Delta Lake format before loading into Redshift and Snowflake data warehouses for different analytical purposes.
+This project develops a robust, scalable, and automated data pipeline to process and analyze customer and transaction data for E-commerce store. The pipeline ingests data from multiple sources, performs data quality checks using AWS Deequ, processes data using PySpark, and stores results in Delta Lake format before loading into Redshift and Snowflake data warehouses for different analytical purposes.
 
 ## Architecture Overview
 - **Landing Zone**: AWS S3 for raw data storage
@@ -113,7 +113,7 @@ The pipeline generates the following key metrics:
 - Refund restocking fee calculations (10%)
 
 ## Contributing
-This project is developed as a Senior Data Engineer assessment for Psycho Bunny. The repository demonstrates enterprise-grade data pipeline capabilities including:
+This project is developed as a Senior Data Engineer assessment for learning data pipelines. The repository demonstrates enterprise-grade data pipeline capabilities including:
 - Scalable data processing with Apache Spark
 - Automated data quality validation
 - Multi-cloud data warehouse integration
@@ -121,4 +121,4 @@ This project is developed as a Senior Data Engineer assessment for Psycho Bunny.
 - Comprehensive monitoring and alerting
 
 ## License
-This project is developed for educational and demonstrative purposes as part of the Psycho Bunny Senior Data Engineer assessment. 
+This project is developed for educational and demonstrative purposes as part of learning data pipelines. 

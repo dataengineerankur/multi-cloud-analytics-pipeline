@@ -1,4 +1,4 @@
-# ELT Data Pipeline Project
+# Multi Cloud ELT Data Pipeline Project
 
 ## Project Description
 This project develops a robust, scalable, and automated data pipeline to process and analyze customer and transaction data for E-commerce store. The pipeline ingests data from multiple sources, performs data quality checks using AWS Deequ, processes data using PySpark, and stores results in Delta Lake format before loading into Redshift and Snowflake data warehouses for different analytical purposes.
